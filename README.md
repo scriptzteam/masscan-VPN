@@ -19,4 +19,4 @@ ip route
 Sample:  
 ```masscan 9.10.11.12 -p22 -e tun0 --router-ip 10.8.0.1```
   
-in tcpdump on scanned with masscan server is openVPN ip :-)
+In ```tcpdump port 22``` on scanned server with masscan is openVPN ip :-)
