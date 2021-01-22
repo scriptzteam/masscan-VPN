@@ -11,7 +11,7 @@ Test:
 openVPN ip - 1.2.3.4  
 real server ip - 5.6.7.8  
 ```
-get your router ip
+Get your router ip
 ```
 ip route
 ```
