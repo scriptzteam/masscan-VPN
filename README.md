@@ -2,7 +2,7 @@
 Fixing - Error: bad packet template :-)
 ```
 wget https://github.com/scriptzteam/masscan-openVPN/blob/main/src/templ-pkt.c  
-move templ-pkt.c into your /masscan/src/ folder  
+mv templ-pkt.c into your /masscan/src/ folder  
 make  
 make install  
 ```  
