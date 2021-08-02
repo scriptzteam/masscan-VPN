@@ -1,7 +1,7 @@
 # masscan-openVPN
 Fixing - Error: bad packet template :-)
 ```
-wget https://github.com/scriptzteam/masscan-openVPN/blob/main/src/templ-pkt.c  
+wget https://raw.githubusercontent.com/scriptzteam/masscan-openVPN/main/src/templ-pkt.c  
 mv templ-pkt.c into your /masscan/src/ folder  
 make  
 make install  
