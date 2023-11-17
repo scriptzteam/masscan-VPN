@@ -3,7 +3,9 @@ Fixing - Error: bad packet template :-)
 ```
 cd masscan/src
 rm templ-pkt.c
+rm proto-http.c
 wget https://raw.githubusercontent.com/scriptzteam/masscan-openVPN/main/src/templ-pkt.c
+wget https://raw.githubusercontent.com/scriptzteam/masscan-openVPN/main/src/proto-http.c
 cd ../
 make  
 make install  
