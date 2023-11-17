@@ -3,7 +3,7 @@
 #include "stack-tcp-api.h"
 #include "smack.h"
 #include "unusedparm.h"
-#include "string_s.h"
+#include "util-safefunc.h"
 #include "masscan-app.h"
 #include "util-malloc.h"
 #include "util-bool.h"
@@ -109,7 +109,7 @@ _http_insert(unsigned char **r_hdr, size_t start, size_t end, size_t header_leng
 
     *r_hdr = REALLOC(*r_hdr, new_header_length + 1);
     hdr = *r_hdr;
-
+    
     /* Shrink/expand the field */
     memmove(&hdr[start + field_length], &hdr[end], header_length - end + 1);
 
@@ -132,7 +132,7 @@ http_change_requestline(unsigned char **hdr, size_t header_length,
     if (field_length == ~(size_t)0)
         field_length = strlen((const char *)field);
 
-    /*  GET /example.html HTTP/1.0
+    /*  GET /example.html HTTP/1.0 
      * 0111233333333333334
      * #0 skip leading whitespace
      * #1 skip past method
@@ -217,7 +217,7 @@ http_change_requestline(unsigned char **hdr, size_t header_length,
     if (item == 3) {
         return _http_insert(hdr, start, offset, header_length, field_length, field);
     }
-
+    
 
     return header_length;
 }
@@ -253,7 +253,7 @@ static size_t _next_field(const unsigned char *hdr, size_t offset, size_t hdr_le
     return offset;
 }
 
-static bool
+static bool 
 _has_field_name(const char *name, size_t name_length, const unsigned char *hdr, size_t offset, size_t hdr_length)
 {
     size_t x;
@@ -316,8 +316,8 @@ http_change_field(unsigned char **inout_header, size_t header_length,
         value_length = strlen((const char *)value);
 
     /* Find our field */
-    for (offset = _next_field(hdr, 0, header_length);
-        offset < header_length;
+    for (offset = _next_field(hdr, 0, header_length); 
+        offset < header_length; 
         offset = _next_field(hdr, offset, header_length)) {
 
         if (_has_field_name(name, name_length, hdr, offset, header_length)) {
@@ -507,7 +507,7 @@ http_parse(
         CONTENT,
         CONTENT_TAG,
         CONTENT_FIELD,
-
+        
         DONE_PARSING
     };
 
@@ -716,7 +716,7 @@ http_selftest_parser(void)
     struct StreamState pstate[1];
     struct BannerOutput banout[1];
 
-
+    
     memset(pstate, 0, sizeof(pstate[0]));
     memset(banout, 0, sizeof(banout[0]));
 
@@ -732,18 +732,18 @@ http_selftest_parser(void)
      * Run Test
      */
     http_parse(banner1, 0, pstate, (const unsigned  char *)test_response, strlen(test_response), banout, 0);
-
-
+    
+    
     /*
      * Verify results
      */
     {
         const unsigned char *string;
         size_t length;
-
+        
         string = banout_string(banout, PROTO_HTTP_SERVER);
         length = banout_string_length(banout, PROTO_HTTP_SERVER);
-
+        
         if (length != 3 || memcmp(string, "gws", 3) != 0) {
             fprintf(stderr, "[-] HTTP parser failed: %s %u\n", __FILE__, __LINE__);
             return 1; /* failure */
@@ -755,7 +755,7 @@ http_selftest_parser(void)
      */
     banner1_destroy(banner1);
     banout_release(banout);
-
+    
     return 0; /* success */
 }
 
@@ -808,7 +808,7 @@ http_selftest_config(void)
         size_t len1 = strlen((const char *)x);
         size_t len2;
         size_t len3 = strlen(urlsamples[i].to);
-
+        
         /* Replace whatever URL is in the header with this new one */
         len2 = http_change_requestline(&x, len1, "/foo.html", ~(size_t)0, 1);
 
@@ -824,7 +824,7 @@ http_selftest_config(void)
         size_t len1 = strlen((const char *)x);
         size_t len2;
         size_t len3 = strlen(methodsamples[i].to);
-
+        
         len2 = http_change_requestline(&x, len1, "POST", ~(size_t)0, 0);
 
         if (len2 != len3 && memcmp(methodsamples[i].to, x, len3) != 0) {
@@ -839,7 +839,7 @@ http_selftest_config(void)
         size_t len1 = strlen((const char *)x);
         size_t len2;
         size_t len3 = strlen(versionsamples[i].to);
-
+        
         len2 = http_change_requestline(&x, len1, "HTTP/1.1", ~(size_t)0, 2);
 
         if (len2 != len3 && memcmp(versionsamples[i].to, x, len3) != 0) {
@@ -854,7 +854,7 @@ http_selftest_config(void)
         size_t len1 = strlen((const char *)x);
         size_t len2;
         size_t len3 = strlen(payloadsamples[i].to);
-
+        
         len2 = http_change_requestline(&x, len1, "foo", ~(size_t)0, 3);
 
         if (len2 != len3 && memcmp(payloadsamples[i].to, x, len3) != 0) {
@@ -869,7 +869,7 @@ http_selftest_config(void)
         size_t len1 = strlen((const char *)fieldsamples[i].from);
         size_t len2;
         size_t len3 = strlen(fieldsamples[i].to);
-
+        
         /* Replace whatever URL is in the header with this new one */
         x = (unsigned char*)STRDUP(fieldsamples[i].from);
         len2 = http_change_field(&x, len1, "foo", (const unsigned char *)"bar", ~(size_t)0, http_field_replace);
@@ -905,7 +905,7 @@ http_selftest_config(void)
         size_t len1 = strlen((const char *)x);
         size_t len2;
         size_t len3 = strlen(removesamples[i].to);
-
+        
         /* Replace whatever URL is in the header with this new one */
         len2 = http_change_field(&x, len1, "foo", (const unsigned char *)"bar", ~(size_t)0, http_field_remove);
 
