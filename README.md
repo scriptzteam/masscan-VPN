@@ -1,4 +1,4 @@
-# masscan-openVPN
+# masscan-VPN
 Fixing - Error: bad packet template :-)
 ```
 cd masscan/src
@@ -18,7 +18,7 @@ pOrT.sCaNnInG.iS.nOt.A.cRiMe
 
 # Test:
 ```
-openVPN ip - 1.2.3.4  
+VPN ip - 1.2.3.4  
 real server ip - 5.6.7.8  
 ```
 
@@ -32,4 +32,4 @@ ip route
 masscan 9.10.11.12 -p22 -e tun0 --router-ip 10.8.0.1
 ```
   
-In ```tcpdump port 22``` on scanned server with masscan is openVPN ip :-)
+In ```tcpdump port 22``` on scanned server with masscan is VPN ip :-)
